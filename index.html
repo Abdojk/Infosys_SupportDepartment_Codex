@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D365 CE Department Dashboard</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary">
+        <div class="sidebar-brand">D365 CE</div>
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-link active">Dashboard</a>
+          <a href="#cases-section" class="nav-link">Cases</a>
+          <a href="#timesheet-section" class="nav-link">Time Entries</a>
+        </nav>
+        <button id="logout-btn" class="btn btn-secondary sidebar-logout" type="button">Logout</button>
+      </aside>
+
+      <main class="main-content">
+        <header class="filter-header card">
+          <h1>Department Dashboard</h1>
+          <div class="filter-bar" role="region" aria-label="Dashboard filters">
+            <div class="field-group">
+              <label for="owner-filter">Owner</label>
+              <select id="owner-filter" name="owner-filter">
+                <option value="">All Owners</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="status-filter">Status</label>
+              <select id="status-filter" name="status-filter">
+                <option value="">All Statuses</option>
+                <option value="0">Active</option>
+                <option value="1">Resolved</option>
+                <option value="2">Cancelled</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="priority-filter">Priority</label>
+              <select id="priority-filter" name="priority-filter">
+                <option value="">All Priorities</option>
+                <option value="1">High</option>
+                <option value="2">Normal</option>
+                <option value="3">Low</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="date-from">Date From</label>
+              <input id="date-from" name="date-from" type="date" />
+            </div>
+
+            <div class="field-group">
+              <label for="date-to">Date To</label>
+              <input id="date-to" name="date-to" type="date" />
+            </div>
+
+            <div class="filter-actions">
+              <button id="apply-filters" class="btn btn-primary" type="button">Apply Filters</button>
+              <button id="reset-filters" class="btn btn-secondary" type="button">Reset</button>
+              <button id="refresh-dashboard" class="btn btn-secondary" type="button">Refresh</button>
+            </div>
+          </div>
+        </header>
+
+        <section class="kpi-grid" aria-label="KPIs">
+          <article class="kpi-card card">
+            <h2>Total Cases</h2>
+            <p id="kpi-total-cases">0</p>
+          </article>
+          <article class="kpi-card card">
+            <h2>Active Cases</h2>
+            <p id="kpi-active-cases">0</p>
+          </article>
+          <article class="kpi-card card">
+            <h2>Resolved Cases</h2>
+            <p id="kpi-resolved-cases">0</p>
+          </article>
+          <article class="kpi-card card">
+            <h2>Total Hours</h2>
+            <p id="kpi-total-hours">0.00h</p>
+          </article>
+          <article class="kpi-card card">
+            <h2>Active Owners</h2>
+            <p id="kpi-owner-count">0</p>
+          </article>
+        </section>
+
+        <section id="cases-section" class="content-section card" aria-labelledby="cases-heading">
+          <div class="section-header">
+            <h2 id="cases-heading">Cases</h2>
+          </div>
+          <div id="cases-container" class="content-container" aria-live="polite"></div>
+        </section>
+
+        <section id="timesheet-section" class="content-section card" aria-labelledby="timesheet-heading">
+          <div class="section-header">
+            <h2 id="timesheet-heading">Time Entry Summary</h2>
+          </div>
+          <div id="timesheet-container" class="timesheet-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="chart-grid">
+          <article class="card chart-card">
+            <canvas id="chart-cases-status" aria-label="Cases by status chart"></canvas>
+          </article>
+          <article class="card chart-card">
+            <canvas id="chart-hours-owner" aria-label="Hours by owner chart"></canvas>
+          </article>
+          <article class="card chart-card chart-wide">
+            <canvas id="chart-cases-trend" aria-label="Cases trend chart"></canvas>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="./vendor/msal-browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
