@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | D365 CE Dashboard</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
+  </head>
+  <body class="login-body">
+    <main class="login-main">
+      <section class="login-card card" aria-labelledby="login-title">
+        <h1 id="login-title">D365 CE Department Dashboard</h1>
+        <p class="muted">Sign in with your Microsoft account to continue.</p>
+
+        <button id="sign-in-btn" class="btn btn-primary" type="button">Sign in with Microsoft</button>
+        <div id="login-message" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script src="./vendor/msal-browser.min.js"></script>
+    <script type="module">
+      import { handleRedirect, getAccount, loginRedirect, initMsal } from './js/auth.js';
+
+      const messageEl = document.getElementById('login-message');
+
+      function setMessage(text, isError = false) {
+        messageEl.className = isError ? 'error-banner mt-12' : 'info-banner mt-12';
+        messageEl.textContent = text;
+      }
+
+      async function processLogin() {
+        try {
+          await initMsal();
+          await handleRedirect();
+          const account = getAccount();
+
+          if (account) {
+            window.location.href = './index.html';
+            return;
+          }
+
+          document.getElementById('sign-in-btn').addEventListener('click', async () => {
+            try {
+              await loginRedirect();
+            } catch (error) {
+              setMessage(`Login failed: ${error.message}`, true);
+            }
+          });
+        } catch (error) {
+          setMessage(`Authentication initialization failed: ${error.message}`, true);
+        }
+      }
+
+      processLogin();
+    </script>
+  </body>
+</html>
